@@ -10,7 +10,7 @@ public class CentroAcopioResiduos {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Ingreso de datos con validación
+        // Ingreso de datos que se usa con validación
         char diaInicio = ' ';
         while (true) {
             System.out.println("Ingrese el día inicial (L, M, X, J, V, S, D): ");
@@ -19,7 +19,7 @@ public class CentroAcopioResiduos {
                 diaInicio = diaInicioStr.charAt(0);
                 break;
             } else {
-                System.out.println("Día inicial no válido. Intente de nuevo.");
+                System.out.println("Día inicial no válido");
             }
         }
 
@@ -31,11 +31,11 @@ public class CentroAcopioResiduos {
                 if (diasDelMes > 0) {
                     break;
                 } else {
-                    System.out.println("La cantidad de días debe ser un número positivo. Intente de nuevo.");
+                    System.out.println("La cantidad de días debe ser un número positivo.");
                 }
             } else {
                 System.out.println("Entrada no válida. Intente de nuevo.");
-                scanner.next(); // Limpiar la entrada no válida
+                scanner.next(); // se limpia la entrada
             }
         }
 
@@ -51,27 +51,27 @@ public class CentroAcopioResiduos {
                 }
             } else {
                 System.out.println("Entrada no válida. Intente de nuevo.");
-                scanner.next(); // Limpiar la entrada no válida
+                scanner.next(); // se limpia la entrada
             }
         }
 
-        scanner.nextLine(); // Consumir el salto de línea
+        scanner.nextLine();
 
-        System.out.println("Ingrese los residuos de la sede principal (separados por comas y espacios): ");
+        System.out.println("Ingrese los residuos de la sede principal");
         List<String> residuosSedePrincipal = Arrays.asList(scanner.nextLine().split(",\\s*"));
 
-        System.out.println("Ingrese los residuos de la oficina (separados por comas y espacios): ");
+        System.out.println("Ingrese los residuos de la oficina");
         List<String> residuosOficina = Arrays.asList(scanner.nextLine().split(",\\s*"));
 
-        System.out.println("Ingrese los residuos de la sede secundaria (separados por comas y espacios): ");
+        System.out.println("Ingrese los residuos de la sede secundaria");
         List<String> residuosSedeSecundaria = Arrays.asList(scanner.nextLine().split(",\\s*"));
 
-        // Ejecutar cálculo y obtener resultado
+        // se ejecuita el calculo y se obtiene el resultado
         int[][] resultado = calcularResiduos(diaInicio, diasDelMes, diaConsulta, residuosSedePrincipal, residuosOficina, residuosSedeSecundaria);
 
-        // Imprimir resultados en el formato solicitado
-        System.out.println("Zona de llegada: " + formatearResultado(resultado[0]));
-        System.out.println("Zona de almacenamiento: " + formatearResultado(resultado[1]));
+        // Imprime los resultados en el formato solicitado
+        System.out.println(formatearResultado(resultado[0]));
+        System.out.println(formatearResultado(resultado[1]));
 
         scanner.close();
     }
@@ -87,31 +87,30 @@ public class CentroAcopioResiduos {
         int[] diasRecoleccionOficina = calcularDiasOficina(diaInicio, diasDelMes);
         int[] diasRecoleccionSedeSecundaria = calcularDiasRecoleccion(diasDelMes, "par");
 
-        // Simular cada día
+        // se simula cada día
         for (int dia = 1; dia <= diaConsulta; dia++) {
-            // Contar residuos solo si es día de recolección
+            // se cuenta los residuos solo si es día de recolección
             if (esDiaRecoleccion(dia, diasRecoleccionSedePrincipal)) {
-                int index = (dia - 1) / 2; // índice en base a días de recolección
+                int index = (dia - 1) / 2; // este es el indice en base a días de recolección
                 if (index < residuosSedePrincipal.size()) {
                     contarResiduos(residuosSedePrincipal.get(index), llegada);
                 }
             }
 
             if (esDiaRecoleccion(dia, diasRecoleccionOficina)) {
-                int index = (dia - 1) / 2; // índice en base a días de recolección
+                int index = (dia - 1) / 2; 
                 if (index < residuosOficina.size()) {
                     contarResiduos(residuosOficina.get(index), llegada);
                 }
             }
 
             if (esDiaRecoleccion(dia, diasRecoleccionSedeSecundaria)) {
-                int index = (dia - 1) / 2; // índice en base a días de recolección
+                int index = (dia - 1) / 2; 
                 if (index < residuosSedeSecundaria.size()) {
                     contarResiduos(residuosSedeSecundaria.get(index), llegada);
                 }
             }
 
-            // Transferir a almacenamiento al final de cada día de recolección
             transferirAAlmacenamiento(llegada, almacenamiento);
         }
 
@@ -201,7 +200,7 @@ public class CentroAcopioResiduos {
     private static void transferirAAlmacenamiento(int[] llegada, int[] almacenamiento) {
         for (int i = 0; i < llegada.length; i++) {
             almacenamiento[i] += llegada[i];
-            llegada[i] = 0; // Reiniciar zona de llegada
+            llegada[i] = 0; // se reinicia la zona de llegada
         }
     }
 
